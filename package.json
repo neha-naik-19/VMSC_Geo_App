@@ -17,7 +17,9 @@
     "react-native": "0.68.1",
     "react-native-background-timer-android": "^1.0.2",
     "react-native-device-info": "^8.7.1",
+    "react-native-imei": "^0.2.0",
     "react-native-maps": "^0.31.1",
+    "react-native-sim-data": "^3.0.0",
     "react-native-sms-retriever": "^1.1.1"
   },
   "devDependencies": {

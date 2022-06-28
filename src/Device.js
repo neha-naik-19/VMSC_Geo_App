@@ -14,30 +14,43 @@ import {
 import { getUniqueId, getManufacturer, useBatteryLevel, 
     useBatteryLevelIsLow, useDeviceName, useIsEmulator, 
     getDeviceId, getSystemName, getPhoneNumber, getCarrierSync, 
-    getPhoneNumberSync, getSerialNumberSync  } from 'react-native-device-info';
-    // import RNSimData from 'react-native-sim-data';
+    getPhoneNumberSync, getSerialNumberSync, getSerialNumber, getDeviceToken,
+    getBundleId, getAndroidId, getAndroidIdSync, getAvailableLocationProviders, getAvailableLocationProvidersSync  } from 'react-native-device-info';
+    import RNSimData from 'react-native-sim-data';
     // import SmsRetriever from 'react-native-sms-retriever';
+    // import IMEI from 'react-native-imei'
 
     // PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_PHONE_STATE);
 const Device = prop => {
-    const [phone, setPhone] = useState('');
     let deviceJSON = {};
 
-    // useEffect(() => {
-    //     const onPhoneNumberPressed = async () => {
-    //         try {
-    //             console.log('test');
-    //             const phoneNumber = await  SmsRetriever.requestPhoneNumber();
-    //             // this.setState({phone: phoneNumber.split('+91')[1]});
-    //             console.log('abc ',phoneNumber);
-    //             setPhone(phoneNumber.split('+91')[1]);
-    //         } catch (error) {
-    //             console.log(JSON.stringify(error));
-    //         }
-    //     }
+    useEffect(() => {
+        const requestPermission1 = async () => {
+            try {
+              const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_PHONE_NUMBERS)
+      
+              if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                console.log("You can read PHONE_NUMBERS");            
+              } else {
+                console.log("permission denied")
+              }
 
-    //     onPhoneNumberPressed();
-    // }, []);
+            const granted_READ_PHONE_STATE = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_PHONE_STATE)
+    
+            if (granted_READ_PHONE_STATE === PermissionsAndroid.RESULTS.GRANTED) {
+            console.log("You can read PHONE_STATE");            
+            } else {
+            console.log("permission denied")
+            }
+            } catch (err) {
+              console.warn(err)
+            }
+          }
+
+          requestPermission1();
+
+        // console.log('Test sim data: ',RNSimData.getTelephoneNumber());
+    }, []);
 
     deviceJSON.batteryLevel = useBatteryLevel();
     deviceJSON.batteryLevelIsLow = useBatteryLevelIsLow();
@@ -46,10 +59,15 @@ const Device = prop => {
     deviceJSON.uniqueId = getUniqueId();
     deviceJSON.deviceId = getDeviceId();
     deviceJSON.systemName = getSystemName();
-    deviceJSON.phoneNumber =  getPhoneNumber();
+    // deviceJSON.phoneNumber =  getPhoneNumber();
     deviceJSON.carrierSync =  getCarrierSync();
     deviceJSON.phoneNumberSync =  getPhoneNumberSync();
     deviceJSON.serialNumberSync =  getSerialNumberSync();
+    // deviceJSON.serialNumber = getSerialNumber();
+    // deviceJSON.deviceToken = getDeviceToken();
+    // deviceJSON.bundleId = getBundleId();
+    // deviceJSON.androidId = getAndroidIdSync();
+    // deviceJSON.availableLocationProviders = getAvailableLocationProvidersSync();
 
     // console.log(deviceJSON);
 
@@ -58,7 +76,6 @@ const Device = prop => {
     return(<ScrollView>
         <Text style={styles.instruction}>{JSON.stringify(deviceJSON, null, ' ')}</Text>
         {/* <Button title='Push' onPress={onPhoneNumberPressed}></Button> */}
-        <Text>{phone}</Text>
     </ScrollView>);
 }
 
