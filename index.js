@@ -12,5 +12,6 @@ import {LogBox} from 'react-native';
 LogBox.ignoreAllLogs(['new NativeEventEmitter']);
 LogBox.ignoreAllLogs();
 
-// AppRegistry.registerComponent(appName, () => App);
-AppRegistry.registerComponent(appName, () => Device);
+// AppRegistry.registerComponent(appName, () => HomeScreen);
+AppRegistry.registerComponent(appName, () => App);
+// AppRegistry.registerComponent(appName, () => Device);

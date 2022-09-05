@@ -84,6 +84,12 @@ project.ext.react = [
 
 apply from: "../../node_modules/react-native/react.gradle"
 
+project.ext.vectoricons = [
+    iconFontNames: [ 'MaterialIcons.ttf', 'EvilIcons.ttf', 'Ionicons.ttf' ] // Name of the font files you want to copy
+]
+
+apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
+
 /**
  * Set this to true to create two separate APKs instead of one:
  *   - An APK that only works on ARM devices
@@ -141,6 +147,7 @@ android {
         versionCode 1
         versionName "1.0"
         buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
+        archivesBaseName = "VMSC"
 
         if (isNewArchitectureEnabled()) {
             // We configure the NDK build only if you decide to opt-in for the New Architecture.
@@ -250,6 +257,7 @@ android {
             signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            // versionNameSuffix "-1.0"
         }
     }
 
@@ -278,7 +286,13 @@ dependencies {
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 
-    implementation 'com.google.android.gms:play-services-gcm:+'
+    // implementation 'com.google.android.gms:play-services-gcm:+'
+
+    implementation "com.google.android.gms:play-services-base:16.0.1"
+
+    implementation "com.google.android.gms:play-services-location:16.0.0"
+
+    implementation project(':react-native-vector-icons')
 
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
